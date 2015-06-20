@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Include Google Maps JS API -->
+        <script type="text/javascript"
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtS_6mlBUfmxGrmePDkeg3iRS0cgVHUXk&sensor=false">
+        </script>
+        <style type="text/css">
+              html { height: 100% }
+              body { height: 100%; margin: 5; }
+              #mapDiv { width: 100%; height: 100%; }
+        </style>
+        <!-- Map creation is here -->
+        <script type="text/javascript">
+              //Defining map as a global variable to access from other functions
+              var map;
+
+              var areaCoordinates = [
+                  [-7.5593963906595585,110.76915979385376], [-7.557971218989121,110.76600551605225],
+				  [-7.556024894856341,110.76742172241211], [-7.554418904951547,110.76986789703369],
+				  [-7.554876240433109,110.77229261398315], [ -7.558811432707245,110.77238917350769],
+				  [-7.557247995745305,110.76962113380432], [-7.5593963906595585,110.76915979385376]
+              ];
+
+              function addPolygon () {
+                  //First we iterate over the coordinates array to create a
+                  // new array which includes objects of LatLng class.
+                  var pointCount = areaCoordinates.length;
+                  var areaPath = [];
+                  for (var i=0; i < pointCount; i++) {
+                      var tempLatLng = new google.maps.LatLng(areaCoordinates[i][0], areaCoordinates[i][1]);
+                      areaPath.push(tempLatLng);
+                  }
+
+                  //Polygon properties are defined below
+                  var polygonOptions = {
+                      paths: areaPath,
+                      strokeColor: '#FF0000',
+                      strokeOpacity: 0.9,
+                      strokeWeight: 3,
+                      fillColor: '#FFFF00',
+                      fillOpacity: 0.25
+                  }
+
+                  var polygon = new google.maps.Polygon(polygonOptions);
+
+                  //Polygon is set to current map.
+                  polygon.setMap(map);
+              }
+
+              function initMap() {
+                    //Enabling new cartography and themes
+                    google.maps.visualRefresh = true;
+
+                    //Setting starting options of map
+                    var mapOptions = {
+                          center: new google.maps.LatLng(-7.557035282796036, 110.76947093009949),
+                          zoom: 17,
+                          mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+                    //Getting map DOM element
+                    var mapElement = document.getElementById('mapDiv');
+
+                    //Creating a map with DOM element which is just obtained
+                    map = new google.maps.Map(mapElement, mapOptions);
+
+                    addPolygon();
+              }
+
+              google.maps.event.addDomListener(window, 'load', initMap);
+        </script>
+    </head>
+    <body>
+        <b>Chapter 3 - Adding Polygons</b><br/>
+        <div id="mapDiv"></div>
+    </body>
+</html>

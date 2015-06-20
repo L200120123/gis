@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Include Google Maps JS API -->
+        <script type="text/javascript"
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtS_6mlBUfmxGrmePDkeg3iRS0cgVHUXk&sensor=false">
+        </script>
+        <style type="text/css">
+              html { height: 100% }
+              body { height: 100%; margin: 5; }
+              #mapDiv { width: 1500px; height: 650px; }
+        </style>
+        <!-- Map creation is here -->
+        <script type="text/javascript">
+              //Defining map as a global variable to access from other functions
+              var map;
+
+              var lineCoordinates = [
+                  [-7.566578537887055,110.830078125],[-7.552964992088479,110.73257446289062],
+				  [-7.543435254790071,110.6103515625],[-7.411358830999969,110.51834106445312],
+				  [-7.370502399549802,110.51971435546875],[-7.307848558289765,110.48263549804688],
+				  [-7.254722110901694,110.4400634765625],[-7.177064495712327,110.43319702148438],
+				  [-7.108932861555119,110.42495727539062],[-7.044879951116977,110.43319702148438],
+				  [-6.995812125622714,110.423583984375]
+              ];
+
+              function addPolyline () {
+                  //First we iterate over the coordinates array to create a
+                  // new array which includes objects of LatLng class.
+                  var pointCount = lineCoordinates.length;
+                  var linePath = [];
+                  for (var i=0; i < pointCount; i++) {
+                      var tempLatLng = new google.maps.LatLng(lineCoordinates[i][0], lineCoordinates[i][1]);
+                      linePath.push(tempLatLng);
+                  }
+
+                  //Polyline properties are defined below
+                  var lineOptions = {
+                      path: linePath,
+                      strokeWeight: 7,
+                      strokeColor: '#FF0000',
+                      strokeOpacity: 0.8
+                  }
+                  var polyline = new google.maps.Polyline(lineOptions);
+
+                  //Polyline is set to current map.
+                  polyline.setMap(map);
+              }
+
+              function initMap() {
+                    //Enabling new cartography and themes
+                    google.maps.visualRefresh = true;
+
+                    //Setting starting options of map
+                    var mapOptions = {
+                          center: new google.maps.LatLng(-7.3364525349999505, 110.49087524414062),
+                          zoom: 10,
+                          mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+                    //Getting map DOM element
+                    var mapElement = document.getElementById('mapDiv');
+
+                    //Creating a map with DOM element which is just obtained
+                    map = new google.maps.Map(mapElement, mapOptions);
+
+                    addPolyline();
+              }
+
+              google.maps.event.addDomListener(window, 'load', initMap);
+        </script>
+    </head>
+    <body>
+        <b>Chapter 3 - Adding Lines</b><br/>
+        <div id="mapDiv"></div>
+    </body>
+</html>
